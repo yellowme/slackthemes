@@ -1,0 +1,1372 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>Slack Themes</title>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
+
+    <link rel="shortcut icon" href="/favicon-32.png" sizes="16x16 32x32 48x48" type="image/png">
+
+    <link href="/stylesheets/rollup-client_core.css" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/rollup-client_primary.css" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/rollup-client_general.css" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/rollup-client_secondary.css" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/libs/lato-1.css" rel="stylesheet" type="text/css">
+
+    <link href="stylesheets/all.css" rel="stylesheet" type="text/css" />
+    <script src="javascripts/all.js" type="text/javascript"></script>
+  </head>
+
+  <body class="index">
+    <script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-60794054-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <div ng-app="theme" ng-controller='ThemeController'>
+        <style type="text/css" id="sidebar_theme_css">
+            /* Column Background */
+            #col_channels_bg,
+            #col_channels {
+                background: {{ column_bg }};
+            }
+            #monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_handle_inner {
+                border-color: {{ column_bg }};
+            }
+
+            /* Menu Background */
+            #team_menu,
+            #user_menu {
+                background: {{ menu_bg }};
+                color: {{ text_color }};
+                text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+            }
+            #team_menu {
+                border-bottom-color: {{ menu_bg }};
+            }
+            #user_menu {
+                border-top-color: {{ menu_bg }};
+            }
+
+            /* Active Item */
+            #col_channels ul li.channel.active a.channel_name,
+            #col_channels ul li.group.active a.group_name,
+            #col_channels ul li.member.active a.im_name {
+                background: {{ active_item }};
+                opacity: 1;
+                color: {{ active_item_text }} !important;
+            }
+            #col_channels.channels_list_holder ul li.channel.active .unread_highlight, #col_channels.channels_list_holder ul li.member.active .unread_highlight, #col_channels.channels_list_holder ul li.group.active .unread_highlight {
+                color: {{ active_item }};
+            }
+
+            /* Hovered Item */
+            .channels_list_holder ul li a:hover,
+            #monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_bar {
+                background: {{ hover_item }};
+            }
+
+            /* Text Color */
+            .channels_list_holder ul li a,
+            .channels_list_holder h2,
+            .list_more,
+            #team_menu i,
+            #user_menu i,
+            .channels_list_holder ul li.channel.active a.channel_name .prefix,
+            .channels_list_holder ul li.group.active a.group_name .prefix,
+            #current_user_name,
+            .channels_list_holder ul li.unread .prefix,
+            .channels_list_holder ul li.member .im_close,
+            .channels_list_holder ul li.group .group_close {
+                color: {{ text_color }} !important;
+                opacity: 0.6;
+            }
+            .channels_list_holder ul li.channel.active a.channel_name .prefix,
+            .channels_list_holder ul li.group.active a.group_name .prefix {
+                color: {{ active_item_text }} !important;
+            }
+            .list_more:hover {
+                color: {{ text_color }} !important;
+                border-bottom-color: {{ text_color }};
+            }
+
+            .channels_list_holder ul li.unread a,
+            #current_user_name,
+            .channels_list_holder ul li.member .im_close,
+            .channels_list_holder ul li.group .group_close {
+                opacity: 1;
+            }
+
+            #monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_handle_inner {
+                background: {{ text_color }};
+                opacity: 0.7;
+            }
+
+            /* Presence */
+            #im-list .presence.active i.presence_icon,
+            #starred-list .presence.active i.presence_icon,
+            .slackbot_icon {
+                color: {{ active_presence }};
+                opacity: 1;
+            }
+            #im-list li.member.active .presence.active i.presence_icon,
+            #starred-list li.member.active .presence.active i.presence_icon,
+            #im-list li.member.active .slackbot_icon,
+            #starred-list li.member.active .slackbot_icon {
+                color: {{ active_item_text }} !important;
+            }
+
+            /* Override for Hoth Theme presence dot on selected item. Fix Bug #7154 */
+            .sidebar_theme_hoth_theme #im-list li.member.active .presence.active i.presence_icon,
+            .sidebar_theme_hoth_theme #starred-list li.member.active .presence.active i.presence_icon,
+            .sidebar_theme_hoth_theme #im-list li.member.active .slackbot_icon,
+            .sidebar_theme_hoth_theme #starred-list li.member.active .slackbot_icon {
+                color: {{ active_presence }} !important;
+            }
+
+            #im-list li.member.active .presence.away i.presence_icon,
+            #starred-list li.member.active .presence.away i.presence_icon {
+                color: {{ active_item_text }} !important;
+                opacity: 0.3;
+            }
+            #im-list .presence.away,
+            #starred-list .presence.away {
+                color: {{ text_color }};
+                opacity: 0.3;
+            }
+
+            /* Badge + Mentions bar */
+            .channels_list_holder .unread_highlight,
+            #channel_scroll_up.unseen_have_mentions,
+            #channel_scroll_down.unseen_have_mentions,
+            #omnibox .omnibox_item .unread_highlight_cnt {
+                background: {{ mention_badge }};
+            }
+
+            /* No text shadows */
+            #col_channels a,
+            #team_menu,
+            #user_menu,
+            #loading_team_menu_bg,
+            #loading_user_menu_bg {
+                text-shadow: none !important;
+            }
+        </style>
+        <a href="https://github.com/paracycle/slackthemes"><img style="position: absolute; z-index: 1000; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+        <div id="client-ui" class="container-fluid sidebar_theme_hoth_theme">
+            <div id="header" class="">
+                <div id="channel_header">
+
+                    <div id="team_menu">
+                        <span id="team_name" class="overflow_ellipsis right_padding">Slack Themes</span>
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+
+                    <h2 id="active_channel_name" class="overflow_ellipsis" data-original-title="" title="">
+                        <span class="name ">
+                            <span class="prefix">#</span>
+                            general
+                        </span>
+                        <i id="channel_actions" class="fa fa-chevron-down"></i>
+                    </h2>
+                </div>
+            </div>
+
+            <div id="footer" style="bottom: 0px;">
+                <div id="notification_bar" class="wide really_wide">
+                    <div id="notification_text" class="overflow_ellipsis">
+                        Not affiliated with <a href="https://slack.com/">Slack</a> in any way or form; but it is a great tool, use it.
+                    </div>
+                    <div id="special_formatting_text" class="special_formatting_tips showing">
+                        Made with ♥ in Istanbul by <a href="https://twitter.com/paracycle">Ufuk Kayserilioglu</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="client_body">
+                <div id="col_messages">
+                    <div class="row-fluid">
+                        <div id="col_channels" class="show_presence channels_list_holder no_just_unreads">
+                            <div id="monkey_scroll_wrapper_for_channels_scroller" class="monkey_scroll_wrapper ">
+                                <div class="monkey_scroll_hider" style="width: 203px;">
+                                    <div id="channels_scroller" class="monkey_scroller" style="height: 813px; visibility: visible; width: 220px;">
+                                        <div id="channels" class="section_holder">
+                                            <h2 id="channels_header" class="hoverable overflow_ellipsis">Channels</h2>
+                                            <ul id="channel-list">
+                                                <li class="channel active ">
+                                                    <a class="channel_name">
+                                                        <span class="unread_highlight">8</span>
+                                                        <span class="overflow_ellipsis">
+                                                            <span class="prefix">#</span> general
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li class="channel unread">
+                                                    <a class="channel_name">
+                                                        <span class="unread_highlight">3</span>
+                                                        <span class="overflow_ellipsis">
+                                                            <span class="prefix">#</span> random
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <a class="channel-list-create list_more">Create a channel...</a>
+                                            </ul>
+                                            <div class="clear_both"></div>
+                                        </div>
+
+                                        <div id="direct_messages" class="section_holder">
+                                            <h2 id="direct_messages_header" class="hoverable overflow_ellipsis">Direct Messages</h2>
+                                            <ul id="im-list">
+                                                <li class="member_USLACKBOT member  cursor_pointer">
+                                                    <a class="im_name nuc color_USLACKBOT" data-member-id="USLACKBOT">
+                                                        <i class="fa fa-times-circle im_close"></i>
+                                                        <span class="unread_highlight_USLACKBOT unread_highlight hidden">0</span>
+                                                        <span class="overflow_ellipsis">
+                                                                <i class="fa fa-heart slackbot_icon"></i>
+                                                                slackbot
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li class="member away  cursor_pointer">
+                                                    <a class="im_name nuc">
+                                                        <i class="fa fa-times-circle im_close"></i>
+                                                        <span class="unread_highlight hidden">0</span>
+                                                        <span class="overflow_ellipsis">
+                                                                <span class="presence away" title="away"><i class="fa fa-circle presence_icon"></i></span>
+                                                                jack
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li class="member cursor_pointer unread">
+                                                    <a class="im_name nuc">
+                                                        <i class="fa fa-times-circle im_close"></i>
+                                                        <span class="unread_highlight">10</span>
+                                                        <span class="overflow_ellipsis">
+                                                                <span class="presence active" title="active"><i class="fa fa-circle presence_icon"></i></span>
+                                                                jane
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li class="member cursor_pointer">
+                                                    <a class="im_name nuc">
+                                                        <i class="fa fa-times-circle im_close"></i>
+                                                        <span class="unread_highlight hidden">0</span>
+                                                        <span class="overflow_ellipsis">
+                                                                <span class="presence active" title="active"><i class="fa fa-circle presence_icon"></i></span>
+                                                                hanna
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="clear_both"></div>
+                                            <a id="im_list_more" class="list_more hidden"></a>
+                                        </div>
+
+                                        <div id="groups" class="section_holder">
+                                            <h2 id="groups_header" class="hoverable overflow_ellipsis">Private Groups</h2>
+                                            <ul id="group-list"></ul>
+                                            <div class="clear_both"></div>
+                                            <a id="group_list_more" class="list_more">New private group...</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a id="user_menu" style="bottom: 0px;" href="https://github.com/paracycle">
+                                <div id="current_user_avatar">
+                                    <span class="member_image thumb_48" style="background-image: url('/images/profile.jpg')"></span>
+                                </div>
+                                <span id="current_user_name" class="overflow_ellipsis">paracycle</span>
+                                <img id="connection_icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABmFBMVEUAAAD////////////////////////////////////2+/LR5bKw1Hmfy1KUxz2VyD2izVKz1nnS5rP////A3JuOw0qKwkCNxD+QxT6Sxj6Txz6SxUnC3Jv1+fGXx2GDvkCGwECIwUCLwj+PxD6PxT+JwUCFwECZyGD2+vGSxWF9vEGAvkGDv0CMwz+Wx2GPw2F4ukJ7u0J+vUGBvkGHwUB8u0KSxGG31pp0uEN3uUJ5u0KFv0CCv0B6u0K415p5uU1yt0N/vUF1uEN8u0zG3bFttURwtkR5ukLH3rGWxnlqtERutUR2uUOZx3l6uVZos0VvtkRxt0Nzt0N8ulVisUVlskVns0VzuENmskVfsEVps0VztlZer0VhsEVjsUVstER1t1aOwXhcrkZdr0VgsEaQwnm/2a9YrUZbrka/2rDz+PFhr09XrEZksE6pzplUq0ZVrEZarUaqzpl0tWJRq0dWrEZ1tmJztWJOqUdSq0dxtGJMqEdNqUdQqkdytWKmzJhXrFBKqEdZrU+716+GvXhjr1dIp0hkr1dYtVOVAAAAFHRSTlMAV8/v/wCH+x/n////////////9kvBHZAAAAG7SURBVHgBvdOxjtNAEIDhGe/MZO3sxVaiIJkiSNdQUPJOeQlqXoCCIg/EU9BQHRKg5CT7ErzrHTa+aBOqaxC/tdLK+2kbj+H/hoWhlCmQr0HeyYxyM8mvkWHKoAfBS6cBWEeYugAzf4QGp1SV8DvU/ZjBdN7iud6hdnOTdl+TuALyrUPEwfdu3nc1ipr9AwdIFZPysJylRDfa6cZL2rfgMd9QjO8R0Y+/u7sa4LHZz4wN/MXEyw1hbK1VZdV7PZ1OyufzktsxXADCW5EkXq06Paan02Uoo3kHmAEzJ8HBN6v5qlkqaxTmCdAzQK8Noi6rXwCrJyutepUMAARnXS++3cvm2xvftR0PzAyQAXtwdNChifvFHppBdR003IDCIg6JDOse4DX8WIdo1TwfpaUgqWC9c4eqqg5HF20QZdAMmDlasdHWkrKR03J0A4iIXRTrpba29laiY8YMyOyMKYkXroyROZZuwVTyztAFJPmZKBGq+FxFVBr5BHr7ubd3GICfAM+88qDHHYe/BmbbIAaGKU/Fz10emDxyHxBhgJTg+DGP3O3QbltMBkd92F2H9sWxB772wo9z2z8FfwDHWbdKLDfq1AAAAABJRU5ErkJggg==" class="" style="opacity: 1;">
+                                <span id="connection_status">online</span>
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+
+                    </div>
+
+                    <div id="messages_container">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="new_prefs_dialog" class="modal hide fade in" aria-hidden="false">
+        <div class="modal-header">
+            <h3>Select a sidebar theme to preview</h3>
+        </div>
+        <div class="modal-body" style="overflow-y: auto;">
+            <div id="prefs_themes" class="dialog_tab_pane active">
+                <label class="radio theme_label theme_360channel">
+    <img src="/images/theme/360channel-51e5aca1f99ae4204c7755f382d4f3bf.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="360channel" ng-model="slug"> 360Channel
+</label>
+<label class="radio theme_label theme_afterglow">
+    <img src="/images/theme/afterglow-78f142672a63362350c40075e22011b2.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="afterglow" ng-model="slug"> Afterglow
+</label>
+<label class="radio theme_label theme_amigaos_1_3">
+    <img src="/images/theme/amigaos_1_3-de7cd1ab2b0e31f238f418ea1040c9ac.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="amigaos_1_3" ng-model="slug"> AmigaOS 1.3
+</label>
+<label class="radio theme_label theme_ancestry">
+    <img src="/images/theme/ancestry-6ff04e5adbdc541ff2cc4a14a9749d4e.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="ancestry" ng-model="slug"> Ancestry
+</label>
+<label class="radio theme_label theme_arc">
+    <img src="/images/theme/arc-1b8a9c5c50ef4f288f34be679dfd0b9b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="arc" ng-model="slug"> Arc
+</label>
+<label class="radio theme_label theme_arc_grey">
+    <img src="/images/theme/arc_grey-9d407e5c800ce9c7430dd63670e1f31b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="arc_grey" ng-model="slug"> Arc Grey
+</label>
+<label class="radio theme_label theme_arizona_state_university">
+    <img src="/images/theme/arizona_state_university-ad871d0c3120f601aaeb587ea3634da1.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="arizona_state_university" ng-model="slug"> Arizona State University
+</label>
+<label class="radio theme_label theme_atom_one_dark">
+    <img src="/images/theme/atom_one_dark-1e2c853c4b769c0038d0fdd15c341283.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="atom_one_dark" ng-model="slug"> Atom One Dark
+</label>
+<label class="radio theme_label theme_aubergine">
+    <img src="/images/theme/aubergine-78c77bed831d7972c590f9bd03e152d8.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="aubergine" ng-model="slug"> Aubergine
+</label>
+<label class="radio theme_label theme_autumn">
+    <img src="/images/theme/autumn-0035ee5728873154f21486cdd6fb8734.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="autumn" ng-model="slug"> Autumn
+</label>
+<label class="radio theme_label theme_awa">
+    <img src="/images/theme/awa-437b08541cce884e2ac77b5bdd31e4be.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="awa" ng-model="slug"> AWA
+</label>
+<label class="radio theme_label theme_b_mind">
+    <img src="/images/theme/b_mind-c7cb588f488f9fad4e181609444148f9.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="b_mind" ng-model="slug"> B-MIND
+</label>
+<label class="radio theme_label theme_base16_default_dark">
+    <img src="/images/theme/base16_default_dark-fa399a3193ae101d779b086427804810.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="base16_default_dark" ng-model="slug"> Base16 Default Dark
+</label>
+<label class="radio theme_label theme_base16_eighties_dark">
+    <img src="/images/theme/base16_eighties_dark-75cab375f85855ef921fb80f9a061782.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="base16_eighties_dark" ng-model="slug"> Base16 Eighties Dark
+</label>
+<label class="radio theme_label theme_base16_eighties_light">
+    <img src="/images/theme/base16_eighties_light-71bbd74ae8ee32fa6add019bcf3809a6.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="base16_eighties_light" ng-model="slug"> Base16 Eighties Light
+</label>
+<label class="radio theme_label theme_base16_ocean_dark">
+    <img src="/images/theme/base16_ocean_dark-16e6074532cff63db8d352e7b1ccda62.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="base16_ocean_dark" ng-model="slug"> Base16 Ocean Dark
+</label>
+<label class="radio theme_label theme_base16_tomorrow_night">
+    <img src="/images/theme/base16_tomorrow_night-71ae07518174786bfe2fb9ab5a9e83ba.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="base16_tomorrow_night" ng-model="slug"> Base16 Tomorrow Night
+</label>
+<label class="radio theme_label theme_bcit">
+    <img src="/images/theme/bcit-de99727184d5e22df6b75d2f8b97a8cd.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="bcit" ng-model="slug"> BCIT
+</label>
+<label class="radio theme_label theme_beaver_builders">
+    <img src="/images/theme/beaver_builders-2f8c1bce67eaa82b05adfcf2cc88a458.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="beaver_builders" ng-model="slug"> Beaver Builders
+</label>
+<label class="radio theme_label theme_benext">
+    <img src="/images/theme/benext-1d4dba2d342df16e1d88eae15770a91e.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="benext" ng-model="slug"> beNext
+</label>
+<label class="radio theme_label theme_big_red">
+    <img src="/images/theme/big_red-4340ec7ac8ed89b51a3d1c91051765c8.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="big_red" ng-model="slug"> Big Red
+</label>
+<label class="radio theme_label theme_bolket">
+    <img src="/images/theme/bolket-07af8c7f9031b580a88e4570c04fd84c.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="bolket" ng-model="slug"> Bolket
+</label>
+<label class="radio theme_label theme_bourbon">
+    <img src="/images/theme/bourbon-af86c2ad9353ba3009272180996318b6.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="bourbon" ng-model="slug"> Bourbon
+</label>
+<label class="radio theme_label theme_brinjal">
+    <img src="/images/theme/brinjal-f523e96f70069ea4881d5f09094afdea.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="brinjal" ng-model="slug"> Brinjal
+</label>
+<label class="radio theme_label theme_chargify">
+    <img src="/images/theme/chargify-1c9ebece01348e748e0be3a7fca519a3.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="chargify" ng-model="slug"> Chargify
+</label>
+<label class="radio theme_label theme_charity_water">
+    <img src="/images/theme/charity_water-8e002346f8461c3d6dafd8766552add4.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="charity_water" ng-model="slug"> charity: water
+</label>
+<label class="radio theme_label theme_chicago_cubs">
+    <img src="/images/theme/chicago_cubs-f16fc1616405173abb8b0378d8a45d92.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="chicago_cubs" ng-model="slug"> Chicago Cubs
+</label>
+<label class="radio theme_label theme_choco_mint">
+    <img src="/images/theme/choco_mint-2fddb05d1683177eb4fb68ee4120e5e7.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="choco_mint" ng-model="slug"> Choco Mint
+</label>
+<label class="radio theme_label theme_christmas">
+    <img src="/images/theme/christmas-37642c6dc1b85209d2cba91549047e26.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="christmas" ng-model="slug"> Christmas
+</label>
+<label class="radio theme_label theme_citrus">
+    <img src="/images/theme/citrus-aabf89160991190ec0315e2a39ea76fa.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="citrus" ng-model="slug"> Citrus
+</label>
+<label class="radio theme_label theme_clemson">
+    <img src="/images/theme/clemson-d6c969420d86f5be1147061188a408b5.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="clemson" ng-model="slug"> Clemson
+</label>
+<label class="radio theme_label theme_cleveland_browns">
+    <img src="/images/theme/cleveland_browns-8ec9fb8da4f88d4c92a38dc83caf41d2.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="cleveland_browns" ng-model="slug"> Cleveland Browns
+</label>
+<label class="radio theme_label theme_cobalt2">
+    <img src="/images/theme/cobalt2-8aadeb6120eac359414615870096cdfa.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="cobalt2" ng-model="slug"> Cobalt2
+</label>
+<label class="radio theme_label theme_cobaltnext">
+    <img src="/images/theme/cobaltnext-ab8f11c399ba0545e67a3370e9afac7b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="cobaltnext" ng-model="slug"> CobaltNext
+</label>
+<label class="radio theme_label theme_codemash">
+    <img src="/images/theme/codemash-d12a1b61640d3bfdea4327adf4f5fa2d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="codemash" ng-model="slug"> CodeMash
+</label>
+<label class="radio theme_label theme_contentful">
+    <img src="/images/theme/contentful-0c74314d3b60a097d104d1e5610b1401.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="contentful" ng-model="slug"> Contentful
+</label>
+<label class="radio theme_label theme_convoy">
+    <img src="/images/theme/convoy-7d0a694b9b178ff869eff9e25a2940f6.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="convoy" ng-model="slug"> Convoy
+</label>
+<label class="radio theme_label theme_craftcms">
+    <img src="/images/theme/craftcms-b2b8ee57ee39a06a975c839392535e76.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="craftcms" ng-model="slug"> CraftCMS
+</label>
+<label class="radio theme_label theme_dallas_stars">
+    <img src="/images/theme/dallas_stars-1722af79c2a5e376f06414dbbf3370d5.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="dallas_stars" ng-model="slug"> Dallas Stars
+</label>
+<label class="radio theme_label theme_danny_torrence">
+    <img src="/images/theme/danny_torrence-2c5bd3ed68a18eacc6e4478b2cbc0319.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="danny_torrence" ng-model="slug"> Danny Torrence
+</label>
+<label class="radio theme_label theme_dark_zenburn">
+    <img src="/images/theme/dark_zenburn-bafb9d5028091fc8dda5491dc1239cbd.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="dark_zenburn" ng-model="slug"> Dark Zenburn
+</label>
+<label class="radio theme_label theme_dd">
+    <img src="/images/theme/dd-53c966070c60b4cb2e9675772b31ec9f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="dd" ng-model="slug"> DD
+</label>
+<label class="radio theme_label theme_decred">
+    <img src="/images/theme/decred-444560bcf4f5f67711c45cb786bdcea3.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="decred" ng-model="slug"> Decred
+</label>
+<label class="radio theme_label theme_deep_blue">
+    <img src="/images/theme/deep_blue-8383299f75a9846d81a08c389a385055.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="deep_blue" ng-model="slug"> Deep Blue
+</label>
+<label class="radio theme_label theme_deezer">
+    <img src="/images/theme/deezer-8e934f023999e75fe0e95088e1fb76cb.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="deezer" ng-model="slug"> Deezer
+</label>
+<label class="radio theme_label theme_delta">
+    <img src="/images/theme/delta-add4935de055d1fe9c15a304f1a37194.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="delta" ng-model="slug"> Delta
+</label>
+<label class="radio theme_label theme_design_hub">
+    <img src="/images/theme/design_hub-24f3d1a2d7af6084595ff3faed64d73d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="design_hub" ng-model="slug"> Design Hub
+</label>
+<label class="radio theme_label theme_devrant">
+    <img src="/images/theme/devrant-64112ead02b7173366058dfdb70edb21.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="devrant" ng-model="slug"> devRant
+</label>
+<label class="radio theme_label theme_digital_media_solutions">
+    <img src="/images/theme/digital_media_solutions-eb306085181a089ddaa1a63bb16740d3.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="digital_media_solutions" ng-model="slug"> Digital Media Solutions
+</label>
+<label class="radio theme_label theme_digitalocean">
+    <img src="/images/theme/digitalocean-e2d1eca6db4cc8a78abcfce1ebf50f5e.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="digitalocean" ng-model="slug"> DigitalOcean
+</label>
+<label class="radio theme_label theme_discord">
+    <img src="/images/theme/discord-c4aa7e9290a076a9ade1cea845d5129d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="discord" ng-model="slug"> Discord
+</label>
+<label class="radio theme_label theme_dobby_purple">
+    <img src="/images/theme/dobby_purple-2d016d331172f1a2b8957089e4c0c59a.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="dobby_purple" ng-model="slug"> Dobby Purple
+</label>
+<label class="radio theme_label theme_dolly_dark">
+    <img src="/images/theme/dolly_dark-82b82ad12d51e698df9d9454b7484636.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="dolly_dark" ng-model="slug"> Dolly Dark
+</label>
+<label class="radio theme_label theme_dolly_light">
+    <img src="/images/theme/dolly_light-b57a80c23fc177d643cf4505c9455dc8.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="dolly_light" ng-model="slug"> Dolly Light
+</label>
+<label class="radio theme_label theme_douglas_rain">
+    <img src="/images/theme/douglas_rain-ab5822c03807d5842172967ea9c24e9d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="douglas_rain" ng-model="slug"> Douglas Rain
+</label>
+<label class="radio theme_label theme_dracula">
+    <img src="/images/theme/dracula-ea6b318fde1dfe02e80256c678cb57f6.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="dracula" ng-model="slug"> Dracula
+</label>
+<label class="radio theme_label theme_draft_u_s_web_design_standards">
+    <img src="/images/theme/draft_u_s_web_design_standards-add7e68da5a0435e8ccc8c2513bd8454.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="draft_u_s_web_design_standards" ng-model="slug"> Draft U.S. Web Design Standards
+</label>
+<label class="radio theme_label theme_dropbox">
+    <img src="/images/theme/dropbox-7eed641641aef0f9388bb3624ce61b00.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="dropbox" ng-model="slug"> Dropbox
+</label>
+<label class="radio theme_label theme_drund">
+    <img src="/images/theme/drund-634fc2f641a6320b8d4c21ff8e48485c.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="drund" ng-model="slug"> Drund
+</label>
+<label class="radio theme_label theme_drupal_twig">
+    <img src="/images/theme/drupal_twig-38763f92448192bfb532e2baf1d5c50c.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="drupal_twig" ng-model="slug"> Drupal Twig
+</label>
+<label class="radio theme_label theme_ega">
+    <img src="/images/theme/ega-58cbe465d2703f66eb08a8b1c450e895.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="ega" ng-model="slug"> EGA
+</label>
+<label class="radio theme_label theme_elementary_gtk">
+    <img src="/images/theme/elementary_gtk-0820ca87c27fca19320b05cc2f359516.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="elementary_gtk" ng-model="slug"> elementary GTK
+</label>
+<label class="radio theme_label theme_ember_js">
+    <img src="/images/theme/ember_js-de623f201ae657bcfe288c8d5cdf9d18.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="ember_js" ng-model="slug"> Ember.js
+</label>
+<label class="radio theme_label theme_embl">
+    <img src="/images/theme/embl-b2216691e22723f12b25a0ba5d254a7d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="embl" ng-model="slug"> EMBL
+</label>
+<label class="radio theme_label theme_facebook">
+    <img src="/images/theme/facebook-f849426f66776afc0edc633620f4f454.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="facebook" ng-model="slug"> Facebook
+</label>
+<label class="radio theme_label theme_fc_bayern_munchen">
+    <img src="/images/theme/fc_bayern_munchen-98fa451a6363d3b59c14ec7d0fd11c49.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="fc_bayern_munchen" ng-model="slug"> FC Bayern München
+</label>
+<label class="radio theme_label theme_film_noir">
+    <img src="/images/theme/film_noir-8dd1854b94ee28e9c271dae110c44c14.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="film_noir" ng-model="slug"> Film Noir
+</label>
+<label class="radio theme_label theme_florida_gators">
+    <img src="/images/theme/florida_gators-443f8bd04573e7256e390ae348739e3e.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="florida_gators" ng-model="slug"> Florida Gators
+</label>
+<label class="radio theme_label theme_folio_orange">
+    <img src="/images/theme/folio_orange-aa48197518a5e07a38143c01b1ccdc90.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="folio_orange" ng-model="slug"> FOLIO orange
+</label>
+<label class="radio theme_label theme_folio_purple">
+    <img src="/images/theme/folio_purple-b95645fd03e38d69f2176c28d73cfbd6.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="folio_purple" ng-model="slug"> FOLIO purple
+</label>
+<label class="radio theme_label theme_forest">
+    <img src="/images/theme/forest-be169bb331980956e1a21a14918bafd4.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="forest" ng-model="slug"> Forest
+</label>
+<label class="radio theme_label theme_frame_ai">
+    <img src="/images/theme/frame_ai-cd1b15591e52ab3fbb90e47949c296a0.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="frame_ai" ng-model="slug"> frame.ai
+</label>
+<label class="radio theme_label theme_freshbooks">
+    <img src="/images/theme/freshbooks-f604f6617076dbaf6e598a2e9d571320.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="freshbooks" ng-model="slug"> FreshBooks
+</label>
+<label class="radio theme_label theme_front_end_happy_hour">
+    <img src="/images/theme/front_end_happy_hour-c0774b3f1cd4d595e46620cde7f92881.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="front_end_happy_hour" ng-model="slug"> Front End Happy Hour
+</label>
+<label class="radio theme_label theme_gartland">
+    <img src="/images/theme/gartland-6ccb98df1b3d43463162630403193fd0.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="gartland" ng-model="slug"> Gartland
+</label>
+<label class="radio theme_label theme_georgia_tech">
+    <img src="/images/theme/georgia_tech-cdc4cd16993c94787db4c2796279733b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="georgia_tech" ng-model="slug"> Georgia Tech
+</label>
+<label class="radio theme_label theme_github">
+    <img src="/images/theme/github-e891b8922cd2aabdc53de39cef7f32c5.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="github" ng-model="slug"> Github
+</label>
+<label class="radio theme_label theme_github_activity_graph">
+    <img src="/images/theme/github_activity_graph-7bf7f2b8f5be3de36501e2e0b4be7dd0.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="github_activity_graph" ng-model="slug"> Github Activity Graph
+</label>
+<label class="radio theme_label theme_gitkraken">
+    <img src="/images/theme/gitkraken-1305f7d379e378fd77f2d23c7684af86.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="gitkraken" ng-model="slug"> GitKraken
+</label>
+<label class="radio theme_label theme_gitlab">
+    <img src="/images/theme/gitlab-bbdeb6fced2a5d659d2dabfb3818d936.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="gitlab" ng-model="slug"> GitLab
+</label>
+<label class="radio theme_label theme_goodstuff_fm">
+    <img src="/images/theme/goodstuff_fm-9b6eae050609e0b5eea6948b0551a33d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="goodstuff_fm" ng-model="slug"> Goodstuff FM
+</label>
+<label class="radio theme_label theme_gotham">
+    <img src="/images/theme/gotham-4a90892a1ccb6a3f5a0aaeff2a21da4f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="gotham" ng-model="slug"> Gotham
+</label>
+<label class="radio theme_label theme_green_lantern">
+    <img src="/images/theme/green_lantern-8166a4a8ae850d8264fcb7d6e81e40e0.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="green_lantern" ng-model="slug"> Green Lantern
+</label>
+<label class="radio theme_label theme_grooveshark">
+    <img src="/images/theme/grooveshark-4fb70efe73921a301a928846977c4e94.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="grooveshark" ng-model="slug"> Grooveshark
+</label>
+<label class="radio theme_label theme_gruvbox_dark">
+    <img src="/images/theme/gruvbox_dark-a95151a4f0e1ab9a2693c29f8e4efb3d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="gruvbox_dark" ng-model="slug"> Gruvbox Dark
+</label>
+<label class="radio theme_label theme_gruvbox_light_medium">
+    <img src="/images/theme/gruvbox_light_medium-ac48232ae069ae8a3ff3c7629cc4ea26.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="gruvbox_light_medium" ng-model="slug"> Gruvbox Light Medium
+</label>
+<label class="radio theme_label theme_halloween">
+    <img src="/images/theme/halloween-fe6a10d204ff1210a97af334381800ab.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="halloween" ng-model="slug"> Halloween
+</label>
+<label class="radio theme_label theme_haunter">
+    <img src="/images/theme/haunter-2df814485a88eca592b9f1dfcb6f625c.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="haunter" ng-model="slug"> Haunter
+</label>
+<label class="radio theme_label theme_hibari">
+    <img src="/images/theme/hibari-a56ea39af6547d6ea1b520cad336aba2.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="hibari" ng-model="slug"> Hibari
+</label>
+<label class="radio theme_label theme_high_contrast">
+    <img src="/images/theme/high_contrast-023ccc6ddb999e0338a06bb52f848815.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="high_contrast" ng-model="slug"> High Contrast
+</label>
+<label class="radio theme_label theme_hip">
+    <img src="/images/theme/hip-be509f1010661e96f8e311d94a4bee77.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="hip" ng-model="slug"> Hip
+</label>
+<label class="radio theme_label theme_hot_dog_stand">
+    <img src="/images/theme/hot_dog_stand-2c035b7e0284d4fea2f6890fba8972c2.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="hot_dog_stand" ng-model="slug"> Hot Dog Stand
+</label>
+<label class="radio theme_label theme_hoth">
+    <img src="/images/theme/hoth-974a7d725a04044a85c116f730e221b0.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="hoth" ng-model="slug"> Hoth
+</label>
+<label class="radio theme_label theme_hotpads">
+    <img src="/images/theme/hotpads-f29dfef2db571d14ffbd6e11d320f644.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="hotpads" ng-model="slug"> HotPads
+</label>
+<label class="radio theme_label theme_hummingbird">
+    <img src="/images/theme/hummingbird-07dd5e102d0f6d3c454b6b030d5f382a.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="hummingbird" ng-model="slug"> Hummingbird
+</label>
+<label class="radio theme_label theme_ingress_enlightened">
+    <img src="/images/theme/ingress_enlightened-ae60a383e00bfbfecb67347cb33cf130.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="ingress_enlightened" ng-model="slug"> Ingress Enlightened
+</label>
+<label class="radio theme_label theme_ingress_resistence">
+    <img src="/images/theme/ingress_resistence-e691b2924d1b905a08da2ac55a4b83ac.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="ingress_resistence" ng-model="slug"> Ingress Resistence
+</label>
+<label class="radio theme_label theme_inpsyde">
+    <img src="/images/theme/inpsyde-e68fa066dd42dd64d843eb58b4fccd52.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="inpsyde" ng-model="slug"> Inpsyde
+</label>
+<label class="radio theme_label theme_javascript">
+    <img src="/images/theme/javascript-a8407210513c48975a752871db99f506.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="javascript" ng-model="slug"> JavaScript
+</label>
+<label class="radio theme_label theme_jellybeans">
+    <img src="/images/theme/jellybeans-c949f124871e1e321075dfe68c6beb47.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="jellybeans" ng-model="slug"> Jellybeans
+</label>
+<label class="radio theme_label theme_juice_bar">
+    <img src="/images/theme/juice_bar-d19b30d5e993056af7bf8fd82ff84ccd.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="juice_bar" ng-model="slug"> Juice Bar
+</label>
+<label class="radio theme_label theme_kansas_city_chiefs">
+    <img src="/images/theme/kansas_city_chiefs-df81ca768ba6ce41c85d6462b6e83ff5.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="kansas_city_chiefs" ng-model="slug"> Kansas City Chiefs
+</label>
+<label class="radio theme_label theme_kawaii">
+    <img src="/images/theme/kawaii-134e7d685737a5f691bed0e6f77f9c75.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="kawaii" ng-model="slug"> Kawaii
+</label>
+<label class="radio theme_label theme_kayako_minimal">
+    <img src="/images/theme/kayako_minimal-17f2eaaf8485c749c146ab5d612d8b63.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="kayako_minimal" ng-model="slug"> Kayako Minimal
+</label>
+<label class="radio theme_label theme_kill_bill">
+    <img src="/images/theme/kill_bill-fd60db5c0524a3692eec2cf61b998193.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="kill_bill" ng-model="slug"> Kill Bill
+</label>
+<label class="radio theme_label theme_kimbie">
+    <img src="/images/theme/kimbie-8d425dfac821667e1d56bcba531a3047.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="kimbie" ng-model="slug"> Kimbie
+</label>
+<label class="radio theme_label theme_kkbox">
+    <img src="/images/theme/kkbox-0e5a16d7d54394e81818f1265124c131.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="kkbox" ng-model="slug"> KKBOX
+</label>
+<label class="radio theme_label theme_kktown">
+    <img src="/images/theme/kktown-01f1393f0cc5e443a7226baa4752ec0b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="kktown" ng-model="slug"> KKTOWN
+</label>
+<label class="radio theme_label theme_kktv">
+    <img src="/images/theme/kktv-be13fa1bc05d547e2e969923c7bb984d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="kktv" ng-model="slug"> KKTV
+</label>
+<label class="radio theme_label theme_laravel">
+    <img src="/images/theme/laravel-92c62686f6d1902275e50b92c41763cf.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="laravel" ng-model="slug"> Laravel
+</label>
+<label class="radio theme_label theme_laravel_light">
+    <img src="/images/theme/laravel_light-a7aabde5c9c0c71b0acf5a75e0162d20.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="laravel_light" ng-model="slug"> Laravel Light
+</label>
+<label class="radio theme_label theme_latte">
+    <img src="/images/theme/latte-43b35433585cc46a313d23dbc702aebe.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="latte" ng-model="slug"> Latte
+</label>
+<label class="radio theme_label theme_latte_time">
+    <img src="/images/theme/latte_time-f2ec6658f7dfc11a19ba4e5642b3078d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="latte_time" ng-model="slug"> Latte Time
+</label>
+<label class="radio theme_label theme_librato">
+    <img src="/images/theme/librato-621ed8734ec3f4d9b37fabf8845ee0a3.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="librato" ng-model="slug"> Librato
+</label>
+<label class="radio theme_label theme_light_blue">
+    <img src="/images/theme/light_blue-aec4edf5c741c7a62ffbad61baac6c2d.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="light_blue" ng-model="slug"> Light Blue
+</label>
+<label class="radio theme_label theme_lightning">
+    <img src="/images/theme/lightning-0afca7b9eee2d00e3048597dc8077fbb.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="lightning" ng-model="slug"> Lightning
+</label>
+<label class="radio theme_label theme_linux_mint_y_dark">
+    <img src="/images/theme/linux_mint_y_dark-2fce92471574b91791720d66ad9dc7d2.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="linux_mint_y_dark" ng-model="slug"> Linux Mint Y Dark
+</label>
+<label class="radio theme_label theme_luizalabs">
+    <img src="/images/theme/luizalabs-53fb756702b56d0abdf9b296109fc13b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="luizalabs" ng-model="slug"> Luizalabs
+</label>
+<label class="radio theme_label theme_macos">
+    <img src="/images/theme/macos-8ad0676271d042db41ec422017ac8aa1.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="macos" ng-model="slug"> macOs
+</label>
+<label class="radio theme_label theme_madsoft">
+    <img src="/images/theme/madsoft-2053aced452e99e473dd116ade0bfc1b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="madsoft" ng-model="slug"> MADSOFT
+</label>
+<label class="radio theme_label theme_makers">
+    <img src="/images/theme/makers-a56a3f8f65b7087c6b11c251f11cf4a9.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="makers" ng-model="slug"> Makers
+</label>
+<label class="radio theme_label theme_material">
+    <img src="/images/theme/material-87388ffc7f65ab8a8e374e5e57be2ab5.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="material" ng-model="slug"> Material
+</label>
+<label class="radio theme_label theme_material_blue_grey">
+    <img src="/images/theme/material_blue_grey-dca260c2a70ab9481bbba5246cb25335.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="material_blue_grey" ng-model="slug"> Material Blue Grey
+</label>
+<label class="radio theme_label theme_material_dark_blue_grey">
+    <img src="/images/theme/material_dark_blue_grey-3f7738bfa2939502db536de7da21bc3a.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="material_dark_blue_grey" ng-model="slug"> Material Dark Blue Grey
+</label>
+<label class="radio theme_label theme_material_dark_indigo">
+    <img src="/images/theme/material_dark_indigo-d946bf5b2d2536d5e4bf856bdc100101.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="material_dark_indigo" ng-model="slug"> Material Dark Indigo
+</label>
+<label class="radio theme_label theme_material_indigo">
+    <img src="/images/theme/material_indigo-6b14a4d403d6cbb9684e02ba52bcf4b8.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="material_indigo" ng-model="slug"> Material Indigo
+</label>
+<label class="radio theme_label theme_mautic">
+    <img src="/images/theme/mautic-3b767c4e68127845a2088cc56916d5fc.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="mautic" ng-model="slug"> Mautic
+</label>
+<label class="radio theme_label theme_mean_green">
+    <img src="/images/theme/mean_green-16e58bcb1e0daf205f875f818c1d68b4.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="mean_green" ng-model="slug"> Mean Green
+</label>
+<label class="radio theme_label theme_metafilter">
+    <img src="/images/theme/metafilter-c6a95320ee4f221ad3753dece789f17c.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="metafilter" ng-model="slug"> MetaFilter
+</label>
+<label class="radio theme_label theme_metal_blue">
+    <img src="/images/theme/metal_blue-c918ec44c9909e994cbea63176e266b6.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="metal_blue" ng-model="slug"> Metal Blue
+</label>
+<label class="radio theme_label theme_midnight_pink">
+    <img src="/images/theme/midnight_pink-9eb04d7a8996e87f592214a78d2aec8f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="midnight_pink" ng-model="slug"> Midnight Pink
+</label>
+<label class="radio theme_label theme_milligram_io">
+    <img src="/images/theme/milligram_io-53ec2fabd0ed05e0139c672c3c2c7acd.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="milligram_io" ng-model="slug"> Milligram.io
+</label>
+<label class="radio theme_label theme_milwaukee_dark">
+    <img src="/images/theme/milwaukee_dark-de5b8830c2296339346635820cd9d095.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="milwaukee_dark" ng-model="slug"> Milwaukee Dark
+</label>
+<label class="radio theme_label theme_milwaukee_light">
+    <img src="/images/theme/milwaukee_light-ff86f5e923eb84c31fa8cf9604d3bc2f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="milwaukee_light" ng-model="slug"> Milwaukee Light
+</label>
+<label class="radio theme_label theme_milwaukee_mid">
+    <img src="/images/theme/milwaukee_mid-31bf9fdc2166a5dc423e6d4a5c29eddd.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="milwaukee_mid" ng-model="slug"> Milwaukee Mid
+</label>
+<label class="radio theme_label theme_mint">
+    <img src="/images/theme/mint-bf2c2f699bbc2d1fd5af975b6163d42b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="mint" ng-model="slug"> Mint
+</label>
+<label class="radio theme_label theme_minty">
+    <img src="/images/theme/minty-db7ce8afe27780c1574b75c9d058add6.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="minty" ng-model="slug"> Minty
+</label>
+<label class="radio theme_label theme_mishaor">
+    <img src="/images/theme/mishaor-8d6b8c5783ff3f1cabc1770ddc64aa7f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="mishaor" ng-model="slug"> mishaor
+</label>
+<label class="radio theme_label theme_mockingbot">
+    <img src="/images/theme/mockingbot-69cd3dd7a2bf4732a5b53ba291dd013f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="mockingbot" ng-model="slug"> MockingBot
+</label>
+<label class="radio theme_label theme_mojave_dark_mode_blue">
+    <img src="/images/theme/mojave_dark_mode_blue-374455aaae3fe0c856841902ac3e5e41.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="mojave_dark_mode_blue" ng-model="slug"> Mojave Dark Mode Blue
+</label>
+<label class="radio theme_label theme_monokai">
+    <img src="/images/theme/monokai-00cd3d1eebb53928d87e47b0e9239b51.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="monokai" ng-model="slug"> Monokai
+</label>
+<label class="radio theme_label theme_monument">
+    <img src="/images/theme/monument-7c8301d46a6d99fd5136c0ecbd55f631.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="monument" ng-model="slug"> Monument
+</label>
+<label class="radio theme_label theme_myplanet">
+    <img src="/images/theme/myplanet-e46a9cbda2a0b2bf77e835bcc2cb6e84.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="myplanet" ng-model="slug"> Myplanet
+</label>
+<label class="radio theme_label theme_n64">
+    <img src="/images/theme/n64-e2bfab383186b3039c4395ef6c85854c.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="n64" ng-model="slug"> N64
+</label>
+<label class="radio theme_label theme_naked_apartments">
+    <img src="/images/theme/naked_apartments-94732e50664cc931ef50c805ed4b72c3.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="naked_apartments" ng-model="slug"> Naked Apartments
+</label>
+<label class="radio theme_label theme_netflix">
+    <img src="/images/theme/netflix-afd66af50d7e843ef1a91513618810ea.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="netflix" ng-model="slug"> Netflix
+</label>
+<label class="radio theme_label theme_newride_tech">
+    <img src="/images/theme/newride_tech-6ab36a8190965f3c5d0791ca5598eb3b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="newride_tech" ng-model="slug"> newride.tech
+</label>
+<label class="radio theme_label theme_nitro_marketing_digital">
+    <img src="/images/theme/nitro_marketing_digital-760bfd95284a88080ef268a4166d4cd3.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="nitro_marketing_digital" ng-model="slug"> Nitro Marketing Digital
+</label>
+<label class="radio theme_label theme_nitronews">
+    <img src="/images/theme/nitronews-748d8ec01a88e29903fb117dbba3a2f2.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="nitronews" ng-model="slug"> Nitronews
+</label>
+<label class="radio theme_label theme_nord">
+    <img src="/images/theme/nord-ab0d27f1ca549fee34f8b783f754efba.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="nord" ng-model="slug"> Nord
+</label>
+<label class="radio theme_label theme_numix">
+    <img src="/images/theme/numix-33aa066ffd8b83a134de214b4020220f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="numix" ng-model="slug"> Numix
+</label>
+<label class="radio theme_label theme_ochin">
+    <img src="/images/theme/ochin-bb801cd911b4e1f3f0f951dce01805d7.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="ochin" ng-model="slug"> Ochin
+</label>
+<label class="radio theme_label theme_oktavilla">
+    <img src="/images/theme/oktavilla-d0e5682bb95ac4c08f53c60cdf8e01dd.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="oktavilla" ng-model="slug"> Oktavilla
+</label>
+<label class="radio theme_label theme_one_dark">
+    <img src="/images/theme/one_dark-cef80e1fa76e310b4e26479f95a9d889.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="one_dark" ng-model="slug"> One Dark
+</label>
+<label class="radio theme_label theme_opendata_cz">
+    <img src="/images/theme/opendata_cz-d384194ed5f29eca023c161c0af789b5.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="opendata_cz" ng-model="slug"> OpenData.cz
+</label>
+<label class="radio theme_label theme_osticket">
+    <img src="/images/theme/osticket-a960e4ee853e830f5ae17e9634afc707.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="osticket" ng-model="slug"> osTicket
+</label>
+<label class="radio theme_label theme_pastel">
+    <img src="/images/theme/pastel-c1d6ae4fe56fe1b0e478ca4505fa945f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="pastel" ng-model="slug"> Pastel
+</label>
+<label class="radio theme_label theme_peter_sellers">
+    <img src="/images/theme/peter_sellers-2151a844d05ad841726cd4f5f2519604.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="peter_sellers" ng-model="slug"> Peter Sellers
+</label>
+<label class="radio theme_label theme_phone_box">
+    <img src="/images/theme/phone_box-9e3bbcf0f763fa5c5b04a2286c9cb5fe.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="phone_box" ng-model="slug"> Phone Box
+</label>
+<label class="radio theme_label theme_photon">
+    <img src="/images/theme/photon-4d3f1258b1c7bd920ed8e683c75503f4.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="photon" ng-model="slug"> Photon
+</label>
+<label class="radio theme_label theme_php">
+    <img src="/images/theme/php-1626cd3b9904d33b21f9811608fc18fb.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="php" ng-model="slug"> PHP
+</label>
+<label class="radio theme_label theme_pinnaca">
+    <img src="/images/theme/pinnaca-60df42357f1af32540f810bc6c3d6fec.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="pinnaca" ng-model="slug"> Pinnaca
+</label>
+<label class="radio theme_label theme_pittsburgh_penguins">
+    <img src="/images/theme/pittsburgh_penguins-a92d50029936797641e6e344d4459bfd.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="pittsburgh_penguins" ng-model="slug"> Pittsburgh Penguins
+</label>
+<label class="radio theme_label theme_playstation">
+    <img src="/images/theme/playstation-a726bbc69483e92e4c8381a4f0d91436.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="playstation" ng-model="slug"> PlayStation
+</label>
+<label class="radio theme_label theme_playstation_classic">
+    <img src="/images/theme/playstation_classic-dd26fedb21dea85f1419bf915e3c1fd7.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="playstation_classic" ng-model="slug"> PlayStation Classic
+</label>
+<label class="radio theme_label theme_plug_dj">
+    <img src="/images/theme/plug_dj-8546459aa36e90a7f17e6ab6627e2977.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="plug_dj" ng-model="slug"> plug.dj
+</label>
+<label class="radio theme_label theme_polygon">
+    <img src="/images/theme/polygon-30e466aa1a73ce282d0e004bd16205bd.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="polygon" ng-model="slug"> Polygon
+</label>
+<label class="radio theme_label theme_polymer">
+    <img src="/images/theme/polymer-4ad05a4321774adcffcd7b28d2803210.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="polymer" ng-model="slug"> Polymer
+</label>
+<label class="radio theme_label theme_pouchdb">
+    <img src="/images/theme/pouchdb-362f2cc02357c98a1a10d3d8aaf75041.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="pouchdb" ng-model="slug"> PouchDB
+</label>
+<label class="radio theme_label theme_product_hunt">
+    <img src="/images/theme/product_hunt-e1381d5e6e1b092999bc2a405ffe36ad.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="product_hunt" ng-model="slug"> Product Hunt
+</label>
+<label class="radio theme_label theme_purple_daydream">
+    <img src="/images/theme/purple_daydream-0de0cc958d58fdebfa8923e1e43a81d2.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="purple_daydream" ng-model="slug"> Purple Daydream
+</label>
+<label class="radio theme_label theme_put_io">
+    <img src="/images/theme/put_io-37fc655a35ceb41eda3e133bece5cb23.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="put_io" ng-model="slug"> Put.io
+</label>
+<label class="radio theme_label theme_python">
+    <img src="/images/theme/python-7c67a626da183d7b4673df87a7e86696.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="python" ng-model="slug"> Python
+</label>
+<label class="radio theme_label theme_railway_clock">
+    <img src="/images/theme/railway_clock-5bd0394e481e83f8701612505d9d39cb.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="railway_clock" ng-model="slug"> Railway Clock
+</label>
+<label class="radio theme_label theme_redaxo">
+    <img src="/images/theme/redaxo-36509ba7134f39dbc04c1ec9b59dae33.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="redaxo" ng-model="slug"> REDAXO
+</label>
+<label class="radio theme_label theme_reddit">
+    <img src="/images/theme/reddit-1f2f427cdbd842407823fc787b431259.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="reddit" ng-model="slug"> Reddit
+</label>
+<label class="radio theme_label theme_retro_monochrome_terminal">
+    <img src="/images/theme/retro_monochrome_terminal-66e4635ad7b33240a23021f4684ddc6e.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="retro_monochrome_terminal" ng-model="slug"> Retro Monochrome Terminal
+</label>
+<label class="radio theme_label theme_saiku_analytics">
+    <img src="/images/theme/saiku_analytics-06d3d0aed261851dee294783307b35ee.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="saiku_analytics" ng-model="slug"> Saiku Analytics
+</label>
+<label class="radio theme_label theme_seatgeek">
+    <img src="/images/theme/seatgeek-86551a47fcec8bbd4a9ea5b54bf61ae5.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="seatgeek" ng-model="slug"> SeatGeek
+</label>
+<label class="radio theme_label theme_shopify">
+    <img src="/images/theme/shopify-d4d6b28f537fb12197180e1bc10f68ca.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="shopify" ng-model="slug"> Shopify
+</label>
+<label class="radio theme_label theme_sky_blue">
+    <img src="/images/theme/sky_blue-b9a2a5c586de6ca3afd8d97101d2f6a1.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="sky_blue" ng-model="slug"> Sky Blue
+</label>
+<label class="radio theme_label theme_skype">
+    <img src="/images/theme/skype-4647d95930cbeb41ac9e179bb99dfc70.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="skype" ng-model="slug"> Skype
+</label>
+<label class="radio theme_label theme_slack_white">
+    <img src="/images/theme/slack_white-fcc102c5a5442a4cedccac0d8101ff4c.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="slack_white" ng-model="slug"> Slack White
+</label>
+<label class="radio theme_label theme_slack_com">
+    <img src="/images/theme/slack_com-132ea217eee1aa0914534a0b7900bb63.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="slack_com" ng-model="slug"> Slack.com
+</label>
+<label class="radio theme_label theme_smooch_io">
+    <img src="/images/theme/smooch_io-42c6ff21078ec9cb5267c64c814512a3.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="smooch_io" ng-model="slug"> Smooch.io
+</label>
+<label class="radio theme_label theme_snazzy">
+    <img src="/images/theme/snazzy-6472e6c6fb0b93a03aaf2e92b0b5bc21.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="snazzy" ng-model="slug"> Snazzy
+</label>
+<label class="radio theme_label theme_social_tables_blue">
+    <img src="/images/theme/social_tables_blue-2c0f57062107d3ff741c10893db023bb.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="social_tables_blue" ng-model="slug"> Social Tables Blue
+</label>
+<label class="radio theme_label theme_social_tables_pink">
+    <img src="/images/theme/social_tables_pink-a7e755fa4e0d599eb8190369b26fc9fa.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="social_tables_pink" ng-model="slug"> Social Tables Pink
+</label>
+<label class="radio theme_label theme_socialsign_in">
+    <img src="/images/theme/socialsign_in-dbdfda13d68bc537558673eefddfa685.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="socialsign_in" ng-model="slug"> SocialSign.in
+</label>
+<label class="radio theme_label theme_solanum">
+    <img src="/images/theme/solanum-73d9595b53e7efcb7b6dedefb09cca00.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="solanum" ng-model="slug"> Solanum
+</label>
+<label class="radio theme_label theme_solarized">
+    <img src="/images/theme/solarized-3c81e712d0f0721fb6664f3946d5f15b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="solarized" ng-model="slug"> Solarized
+</label>
+<label class="radio theme_label theme_solarized_dark">
+    <img src="/images/theme/solarized_dark-5a4cc5f4d03c3c1e33846234f789fb95.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="solarized_dark" ng-model="slug"> Solarized Dark
+</label>
+<label class="radio theme_label theme_son_of_obsidian">
+    <img src="/images/theme/son_of_obsidian-cab221058b73795c923679a2f3b3e6ad.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="son_of_obsidian" ng-model="slug"> Son of Obsidian
+</label>
+<label class="radio theme_label theme_space_gray">
+    <img src="/images/theme/space_gray-00722e2a1f9fd70411db15c0345d4719.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="space_gray" ng-model="slug"> Space Gray
+</label>
+<label class="radio theme_label theme_spotify">
+    <img src="/images/theme/spotify-29b79bc829f5224423e8a73db0d4d2da.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="spotify" ng-model="slug"> Spotify
+</label>
+<label class="radio theme_label theme_spreadfamily">
+    <img src="/images/theme/spreadfamily-82606852d927866043f0478eae0fd734.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="spreadfamily" ng-model="slug"> Spreadfamily
+</label>
+<label class="radio theme_label theme_spring_tree">
+    <img src="/images/theme/spring_tree-789afc80119828fe687d3b3224db1dbc.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="spring_tree" ng-model="slug"> Spring Tree
+</label>
+<label class="radio theme_label theme_sqool_by_unowhy">
+    <img src="/images/theme/sqool_by_unowhy-527ec8fc05553157bdb3c42085c915da.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="sqool_by_unowhy" ng-model="slug"> SQOOL by Unowhy
+</label>
+<label class="radio theme_label theme_starbucks">
+    <img src="/images/theme/starbucks-e7eaf779f3c3211156d7c237946eedc1.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="starbucks" ng-model="slug"> Starbucks
+</label>
+<label class="radio theme_label theme_stark_contrast">
+    <img src="/images/theme/stark_contrast-e6e00e4c82364b53023d3b5fda330476.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="stark_contrast" ng-model="slug"> Stark Contrast
+</label>
+<label class="radio theme_label theme_streeteasy">
+    <img src="/images/theme/streeteasy-ac79e04cad4704758a10a5310b0368d2.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="streeteasy" ng-model="slug"> StreetEasy
+</label>
+<label class="radio theme_label theme_summer_craze">
+    <img src="/images/theme/summer_craze-e8ab77731821d3102c28ccefd6a10cd7.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="summer_craze" ng-model="slug"> Summer Craze
+</label>
+<label class="radio theme_label theme_symfony">
+    <img src="/images/theme/symfony-35af6006601098a3a84b7e2e20e81d49.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="symfony" ng-model="slug"> Symfony
+</label>
+<label class="radio theme_label theme_system76">
+    <img src="/images/theme/system76-dc770446cccc5c895753e82c3a595627.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="system76" ng-model="slug"> System76
+</label>
+<label class="radio theme_label theme_team_pizza">
+    <img src="/images/theme/team_pizza-311b71469898777f72ca636dbc3b9bdf.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="team_pizza" ng-model="slug"> Team Pizza
+</label>
+<label class="radio theme_label theme_terminal">
+    <img src="/images/theme/terminal-bec54321c701b3b47ee5ced53e0436e3.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="terminal" ng-model="slug"> Terminal
+</label>
+<label class="radio theme_label theme_the_changelog">
+    <img src="/images/theme/the_changelog-4f33e61edc846ae02a3808601e765ed9.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="the_changelog" ng-model="slug"> The Changelog
+</label>
+<label class="radio theme_label theme_the_incomparable">
+    <img src="/images/theme/the_incomparable-90b3cabe239610490ca601c4c6c0c084.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="the_incomparable" ng-model="slug"> The Incomparable
+</label>
+<label class="radio theme_label theme_thinkific">
+    <img src="/images/theme/thinkific-8b8138ee880498ab42a0668f2b5189a6.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="thinkific" ng-model="slug"> Thinkific
+</label>
+<label class="radio theme_label theme_thoroughcare">
+    <img src="/images/theme/thoroughcare-37c5406dd8fd47c4fd3c508c489cd25f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="thoroughcare" ng-model="slug"> Thoroughcare
+</label>
+<label class="radio theme_label theme_tomorrow">
+    <img src="/images/theme/tomorrow-c18db4c662a8aef6826f7d7ba5ab4e7f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="tomorrow" ng-model="slug"> Tomorrow
+</label>
+<label class="radio theme_label theme_trello">
+    <img src="/images/theme/trello-de4b757293a6948f164262d1ecc1fb8e.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="trello" ng-model="slug"> Trello
+</label>
+<label class="radio theme_label theme_tron">
+    <img src="/images/theme/tron-0fa9c5e1fb92a425a27759d03fa0c2d6.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="tron" ng-model="slug"> Tron
+</label>
+<label class="radio theme_label theme_trulia">
+    <img src="/images/theme/trulia-ee5d0f78214190f2921644aa48f9e377.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="trulia" ng-model="slug"> Trulia
+</label>
+<label class="radio theme_label theme_twitch">
+    <img src="/images/theme/twitch-fe37552e6d3cb711e0e9de73f312c608.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="twitch" ng-model="slug"> Twitch
+</label>
+<label class="radio theme_label theme_twitter">
+    <img src="/images/theme/twitter-625aef5fff084c69b95dbf311cf86d59.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="twitter" ng-model="slug"> Twitter
+</label>
+<label class="radio theme_label theme_typo3">
+    <img src="/images/theme/typo3-4abe9d83ddcbeff75f075ae198e90c84.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="typo3" ng-model="slug"> TYPO3
+</label>
+<label class="radio theme_label theme_uber_dark">
+    <img src="/images/theme/uber_dark-e77dd5d29159eaaa954e2c0a29251ecf.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="uber_dark" ng-model="slug"> Uber Dark
+</label>
+<label class="radio theme_label theme_uber_light">
+    <img src="/images/theme/uber_light-f49dc1051718a87e2f7dcf834a35ff89.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="uber_light" ng-model="slug"> Uber Light
+</label>
+<label class="radio theme_label theme_university_of_texas">
+    <img src="/images/theme/university_of_texas-4d294842c9279573ab9544d0d662664b.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="university_of_texas" ng-model="slug"> University Of Texas
+</label>
+<label class="radio theme_label theme_vegas_golden_knights">
+    <img src="/images/theme/vegas_golden_knights-00ba40895a8565407263fc62b9f4a4ed.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="vegas_golden_knights" ng-model="slug"> Vegas Golden Knights
+</label>
+<label class="radio theme_label theme_visual_composer">
+    <img src="/images/theme/visual_composer-b2659d328a3014391110f24e8be30be0.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="visual_composer" ng-model="slug"> Visual Composer
+</label>
+<label class="radio theme_label theme_vue_js">
+    <img src="/images/theme/vue_js-dacadade5fdd423e05ce0414761341cb.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="vue_js" ng-model="slug"> Vue.js
+</label>
+<label class="radio theme_label theme_wamein">
+    <img src="/images/theme/wamein-38d4677962273b78f31b9a573890be96.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="wamein" ng-model="slug"> WameIn
+</label>
+<label class="radio theme_label theme_washington_huskies">
+    <img src="/images/theme/washington_huskies-4fbd5f769fe3be5c1b66816b97ee789a.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="washington_huskies" ng-model="slug"> Washington Huskies
+</label>
+<label class="radio theme_label theme_watermelon">
+    <img src="/images/theme/watermelon-d7d19d517829c381dbaa31da3452a1bf.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="watermelon" ng-model="slug"> Watermelon
+</label>
+<label class="radio theme_label theme_waze">
+    <img src="/images/theme/waze-2ce603d524fc610e712e79917e6292fb.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="waze" ng-model="slug"> Waze
+</label>
+<label class="radio theme_label theme_wearelatech">
+    <img src="/images/theme/wearelatech-e9a81d6d9a0434acf93f9056173226a8.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="wearelatech" ng-model="slug"> WeAreLATech
+</label>
+<label class="radio theme_label theme_wedgies">
+    <img src="/images/theme/wedgies-ddeee3bd0b4004c65f0c118520c13537.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="wedgies" ng-model="slug"> Wedgies
+</label>
+<label class="radio theme_label theme_wegman">
+    <img src="/images/theme/wegman-ace8abd8169681e0bffc060c1d521aa8.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="wegman" ng-model="slug"> Wegman
+</label>
+<label class="radio theme_label theme_wild_cherry">
+    <img src="/images/theme/wild_cherry-a520d02c067311968f1a4918a81662c3.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="wild_cherry" ng-model="slug"> Wild Cherry
+</label>
+<label class="radio theme_label theme_willowtree_dark">
+    <img src="/images/theme/willowtree_dark-b0308ca40d38c7f112f2d14e0838e688.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="willowtree_dark" ng-model="slug"> WillowTree - Dark
+</label>
+<label class="radio theme_label theme_willowtree_light">
+    <img src="/images/theme/willowtree_light-65cdaa3d1795759976eb341c22a5a05f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="willowtree_light" ng-model="slug"> WillowTree - Light
+</label>
+<label class="radio theme_label theme_windows_3_1">
+    <img src="/images/theme/windows_3_1-5decb3394f2544743ef9ee10971957b2.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="windows_3_1" ng-model="slug"> Windows 3.1
+</label>
+<label class="radio theme_label theme_windows_95">
+    <img src="/images/theme/windows_95-440ef2a5a3fb60eb29eaa36b8a950a7a.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="windows_95" ng-model="slug"> Windows 95
+</label>
+<label class="radio theme_label theme_windows_xp">
+    <img src="/images/theme/windows_xp-f5e69ced10bbe65b3f1cc503fd013592.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="windows_xp" ng-model="slug"> Windows XP
+</label>
+<label class="radio theme_label theme_wordpress">
+    <img src="/images/theme/wordpress-2ffb65d75547976d07d2250c3f58270a.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="wordpress" ng-model="slug"> WordPress
+</label>
+<label class="radio theme_label theme_work_hard">
+    <img src="/images/theme/work_hard-c12b3ea651f9389a50450ce93c2dba97.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="work_hard" ng-model="slug"> Work Hard
+</label>
+<label class="radio theme_label theme_xunit_net">
+    <img src="/images/theme/xunit_net-afa4097523673cb0ce398934f377bd2e.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="xunit_net" ng-model="slug"> xUnit.net
+</label>
+<label class="radio theme_label theme_yeoman">
+    <img src="/images/theme/yeoman-6bca346ede4263cab872ce131d5f62ef.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="yeoman" ng-model="slug"> Yeoman
+</label>
+<label class="radio theme_label theme_yosemite_itunes">
+    <img src="/images/theme/yosemite_itunes-448854708ad8daf64a9f16ec7ecf9c41.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="yosemite_itunes" ng-model="slug"> Yosemite iTunes
+</label>
+<label class="radio theme_label theme_yotsuba">
+    <img src="/images/theme/yotsuba-4c0631fb7843d8ce1c470693d90ee137.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="yotsuba" ng-model="slug"> Yotsuba
+</label>
+<label class="radio theme_label theme_yotsuba_b">
+    <img src="/images/theme/yotsuba_b-04eb18b5bc8b53fc2c10ccb0c970af3e.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="yotsuba_b" ng-model="slug"> Yotsuba B
+</label>
+<label class="radio theme_label theme_youtube">
+    <img src="/images/theme/youtube-7349fe79c8150596b2146d610c214067.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="youtube" ng-model="slug"> Youtube
+</label>
+<label class="radio theme_label theme_zebra">
+    <img src="/images/theme/zebra-4faa21402e918fe521070739f2efaa36.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="zebra" ng-model="slug"> Zebra
+</label>
+<label class="radio theme_label theme_zeplin">
+    <img src="/images/theme/zeplin-8c0880b1885ef421fd4007a813688753.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="zeplin" ng-model="slug"> Zeplin
+</label>
+<label class="radio theme_label theme_ziik_io">
+    <img src="/images/theme/ziik_io-4983a97f537d4510c5ac40ac1d7af0fc.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="ziik_io" ng-model="slug"> Ziik.io
+</label>
+<label class="radio theme_label theme_zillow">
+    <img src="/images/theme/zillow-2ce93e0318d2117e7d79582867eb149f.png" class="theme_thumb"><br>
+    <input name="sidebar_theme_rd" type="radio" value="zillow" ng-model="slug"> Zillow
+</label>
+
+            </div>
+        </div>
+            <div class="modal-footer">
+                <div id="prefs_themes_customize" class="clear_both" style="padding: 1rem 2rem 1rem 1.5rem;">
+    <!--                 <p class="bold clear_both small_bottom_margin">Custom Theme</p>
+
+                    <div class="input-prepend">
+                        <span class="add-on color_swatch" data-theme-element="column_bg" data-hex="#F8F8FA" style="background-color: #F8F8FA;"></span>
+                        <input type="text" name="color_column_bg_hex" class="color_hex monospace" value="#F8F8FA" maxlength="7"><br>
+                        <span class="input_note">Column BG</span>
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on color_swatch" data-theme-element="menu_bg" data-hex="#F8F8FA" style="background-color: #F8F8FA;"></span>
+                        <input type="text" name="color_menu_bg_hex" class="color_hex monospace" value="#F8F8FA" maxlength="7"><br>
+                        <span class="input_note">Menu BG</span>
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on color_swatch" data-theme-element="active_item" data-hex="#CAD1D9" style="background-color: #CAD1D9;"></span>
+                        <input type="text" name="color_active_item_hex" class="color_hex monospace" value="#CAD1D9" maxlength="7"><br>
+                        <span class="input_note">Active Item</span>
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on color_swatch" data-theme-element="active_item_text" data-hex="#FFFFFF" style="background-color: rgb(255, 255, 255);"></span>
+                        <input type="text" name="color_active_item_text_hex" class="color_hex monospace" value="#FFFFFF" maxlength="7"><br>
+                        <span class="input_note">Active Item Text</span>
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on color_swatch" data-theme-element="hover_item" data-hex="#FFFFFF" style="background-color: #FFFFFF;"></span>
+                        <input type="text" name="color_hover_item_hex" class="color_hex monospace" value="#FFFFFF" maxlength="7"><br>
+                        <span class="input_note">Hover Item</span>
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on color_swatch" data-theme-element="text_color" data-hex="#383F45" style="background-color: #383F45;"></span>
+                        <input type="text" name="color_text_color_hex" class="color_hex monospace" value="#383F45" maxlength="7"><br>
+                        <span class="input_note">Text Color</span>
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on color_swatch" data-theme-element="active_presence" data-hex="#60D156" style="background-color: #60D156;"></span>
+                        <input type="text" name="color_active_presence_hex" class="color_hex monospace" value="#60D156" maxlength="7"><br>
+                        <span class="input_note">Active Presence</span>
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on color_swatch" data-theme-element="badge" data-hex="#FF8669" style="background-color: #FF8669;"></span>
+                        <input type="text" name="color_badge_hex" class="color_hex monospace" value="#FF8669" maxlength="7"><br>
+                        <span class="input_note">Mention Badge</span>
+                    </div> -->
+
+                    <p class="input_note no_bottom_margin">
+                        Copy and paste these values to your <strong>Slack</strong> settings
+                        <a target="_blank" href="https://get.slack.help/hc/en-us/articles/205166337-Customizing-your-Slack-theme"><strong>Sidebar Theme</strong></a> section:
+                    </p>
+                    <input type="text" name="sidebar_theme_custom" id="sidebar_theme_custom" class="monospace subtle_silver no_top_margin" ng-model="colors">
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
