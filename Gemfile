@@ -2,11 +2,10 @@
 # the following line to use "http://" instead
 source 'https://rubygems.org'
 
-gem "middleman", "~>3.3.10"
+gem "middleman", "~>3.3.12"
 
 # Live-reloading plugin
 gem "middleman-livereload", "~> 3.1.0"
-
 gem "middleman-pry", "~> 0.0.4"
 gem "middleman-deploy", "~> 1.0"
 gem "middleman-google-analytics"
@@ -15,8 +14,9 @@ gem "middleman-google-analytics"
 gem "wdm", "~> 0.1.0", :platforms => [:mswin, :mingw]
 
 # Windows does not come with time zone data
-gem "tzinfo-data", platforms: [:mswin, :mingw]
+gem "tzinfo-data", platforms: [:mswin, :mingw, :jruby]
 
+gem "puma"
 gem "capybara"
 gem "poltergeist"
 gem "mini_magick"
