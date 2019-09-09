@@ -1,6 +1,7 @@
 require 'middleman'
 require 'capybara'
 require 'capybara/poltergeist'
+require 'capybara/dsl'
 require 'mini_magick'
 
 class Screenshot
@@ -8,6 +9,7 @@ class Screenshot
   attr_accessor :theme
 
   def self.prepare
+    Capybara.server = :puma
     Capybara.register_driver :poltergeist do |app|
       Capybara::Poltergeist::Driver.new(app, window_size: [1280, 768])
     end
