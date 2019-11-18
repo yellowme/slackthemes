@@ -1,6 +1,6 @@
 - { colors: '#1D212B,#2A2F3D,#ffc226,#23232B,#11131A,#e8e8e8,#ffce2b,#fa3939', name: 'Yellowme Dark' }
 - { colors: '#F0DB4F,#F0DB4F,#323330,#FFFFFF,#e6cd2c,#323330,#323330,#323330', name: 'Yellowme Light' }
-- { colors: '#140D38,#0F0A2B,#FD5E43,#FFFFFF,#0F0A2B,#FFFFFF,#602EE3,#FD5E43', name: 'Enso Dark' }
+- { colors: '#140D38,#0F0A2B,#0F0A2B,#FFFFFF,#0F0A2B,#FFFFFF,#FD5E43,#602EE3', name: 'Enso Dark' }
 - { colors: '#F8F8FA,#F8F8FA,#FD5E43,#FFFFFF,#FFFFFF,#140D38,#602EE3,#FD5E43', name: 'Enso Light' }
 - { colors: '#F8F8FA,#F8F8FA,#4381E2,#FFFFFF,#FFFFFF,#383F45,#4381E2,#EE5222', name: 'Synapse' }
 - { colors: '#BF1336,#d42447,#ffffff,#000000,#D42447,#FFFFFF,#ffffff,#F15340', name: 'Wizeline' }
